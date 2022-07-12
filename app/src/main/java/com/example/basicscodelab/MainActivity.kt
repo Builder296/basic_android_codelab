@@ -24,7 +24,18 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyApp(names: List<String> = listOf("World", "Compose")) {
+fun MyApp() {
+    var shouldShowOnboarding by remember { mutableStateOf(true) }
+
+    if(shouldShowOnboarding) {
+        OnBoardingScreen(onContinueClicked = { shouldShowOnboarding = false })
+    } else {
+        Greetings()
+    }
+}
+
+@Composable
+fun Greetings(names: List<String> = listOf("World", "Compose")) {
     // A surface container using the 'background' color from the theme
     Surface(color = MaterialTheme.colors.background) {
         Column {
@@ -56,6 +67,35 @@ fun Greeting(name: String) {
                 Text(if(expanded) "Show less" else "Show more")
             }
         }
+    }
+}
+
+@Composable
+fun OnBoardingScreen(
+    onContinueClicked: () -> Unit
+) {
+    Surface {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Welcome to the Basics Codelab!")
+            Button(
+                modifier = Modifier.padding(vertical = 24.dp),
+                onClick = onContinueClicked
+            ) {
+                Text("Continue")
+            }
+        }
+    }
+}
+
+@Preview(showBackground = true, widthDp = 320, heightDp = 320)
+@Composable
+fun OnboardingPreview() {
+    BasicsCodelabTheme {
+        OnBoardingScreen(onContinueClicked = {})
     }
 }
 
