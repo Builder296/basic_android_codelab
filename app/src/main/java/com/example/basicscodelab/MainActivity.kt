@@ -5,9 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,8 +37,8 @@ fun MyApp(names: List<String> = listOf("World", "Compose")) {
 
 @Composable
 fun Greeting(name: String) {
-    var expanded = remember { mutableStateOf(false) }
-    val extraPadding = if(expanded.value) 48.dp else 0.dp
+    var expanded by remember { mutableStateOf(false) }
+    val extraPadding = if(expanded) 48.dp else 0.dp
     Surface(
         color = MaterialTheme.colors.primary,
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
@@ -53,8 +52,8 @@ fun Greeting(name: String) {
                 Text(text = "Hello, ")
                 Text(text = name)
             }
-            OutlinedButton(onClick = { expanded.value = !expanded.value }) {
-                Text(if(expanded.value) "Show less" else "Show more")
+            OutlinedButton(onClick = { expanded = !expanded }) {
+                Text(if(expanded) "Show less" else "Show more")
             }
         }
     }
